@@ -8,33 +8,6 @@ const banks = data.split('\n').map(line => line.trim().split('').map(Number));
 
 const sum = (a, b) => a + b;
 
-// Part 1
-function findMaxJoltageInBankSimple(bank) {
-    let battery1Idx = 0;
-    let battery2Idx = 0;
-
-    for (let i = 1; i < bank.length-1; i++) {
-        if (bank[i] > bank[battery1Idx]) {
-            battery1Idx = i;
-        }
-    }
-
-    battery2Idx = battery1Idx + 1;
-    for (let i = battery1Idx + 2; i < bank.length; i++) {
-        if (bank[i] > bank[battery2Idx]) {
-            battery2Idx = i;
-        }
-    }
-
-    return 10*bank[battery1Idx] + bank[battery2Idx];
-}
-
-const part1 = banks
-    .map(findMaxJoltageInBankSimple)
-    .reduce(sum, 0);
-console.log(`Part 1: ${part1}`);
-
-// part 2
 function findMaxJoltageInBank(bank, n=2) {
     let batteryIndices = new Array(n).fill(0);
 
@@ -53,6 +26,13 @@ function findMaxJoltageInBank(bank, n=2) {
     return batteryIndices.reduce((acc, i) => acc * 10 + bank[i], 0);
 }
 
+// Part 1
+const part1 = banks
+    .map(bank => findMaxJoltageInBank(bank))
+    .reduce(sum, 0);
+console.log(`Part 1: ${part1}`);
+
+// part 2
 const part2 = banks
     .map(bank => findMaxJoltageInBank(bank, 12))
     .reduce(sum, 0);
